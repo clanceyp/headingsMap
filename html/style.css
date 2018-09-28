@@ -1,5 +1,5 @@
 html, body {
-    padding: 0;
+    padding: 4px 8px;
     margin: 0;
 }
 #headingsMapWrapper {
@@ -18,7 +18,7 @@ html, body {
 
 #headingsMapWrapper h2 {
     font-size: 1em;
-    margin: 10px 5px;
+    margin: 8px;
 }
 
 #headingsMapWrapper section {
@@ -76,7 +76,7 @@ html, body {
     font-size: 1em;
     color: #444;
     margin: 1px 0;
-    padding: 0 5px 0 25px;
+    padding: 0 0 0 25px;
     background: url(icons/tree_b.gif) 3px top no-repeat;
     line-height: 1.4;
 }
@@ -95,7 +95,7 @@ html, body {
 
 #headingsMapWrapper p,
 #headingsMapWrapper a,
-#headingsMapWrapper .no-headed{
+#headingsMapWrapper .no-headed {
     font-weight: normal;
     text-decoration: none;
     color: #333;
@@ -105,6 +105,10 @@ html, body {
     text-overflow: ellipsis;
     padding: 0 0 3px 2px;
     margin-left: -2px;
+}
+
+#headingsMapWrapper a#headingsTab {
+    margin-left: 0;
 }
 
 #headingsMapWrapper a span {
@@ -185,10 +189,34 @@ html, body {
 }
 
 #headingsMapWrapper .no-headed,
+#headingsMapWrapper .visible-false,
 #headingsMapWrapper .head_error {
     font-weight: normal;
     font-size: 1em;
-    background-color: #FF7575
+    overflow: visible;
+    position: relative;
+}
+#headingsMapWrapper [data-header-id] > * {
+    position: relative;
+    z-index: 2;
+}
+#headingsMapWrapper .no-headed:after,
+#headingsMapWrapper .visible-false:after,
+#headingsMapWrapper .head_error:after {
+    content: "";
+    background-color: #FF7575;
+    border-radius: 3px;
+    position: absolute;
+    top: -2px;
+    left: -3px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+body #headingsMapWrapper .visible-false:after {
+    opacity: .5;
+    background-color: #dbdbdb;
 }
 
 .collapser {
@@ -206,6 +234,6 @@ html, body {
 .collapser:before{
     content:"\025be";
 }
-.collapser.collapsed:before{
+.collapser.collapsed:before {
     content:"\025b8";
 }

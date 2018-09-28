@@ -23,6 +23,7 @@
         activeStatusClass = 'active',
         classPrefix = 'biohead',
         headErrorClass = 'head_error',
+        headNotVisibleClass = 'visible-';
         noHeadClass = 'no-headed',
         untitledDocumentText = 'Untitled document',
         noHeadingsText = 'No headings',
@@ -332,7 +333,7 @@
     }
 
     function headingsMap(documentWindow, documentIndex) {
-        var mainList, headersList, item, header, headerId, headerText, level, noHeadingsTextNode, noHeadingsSpanNode,
+        var mainList, headersList, item, header, headerId, headerText, level, noHeadingsTextNode, noHeadingsSpanNode, headingsSpanNode,
             parentList, linkElement, descendantListElement, headerTextNode, precedingHeadLevel, parentListClass,
             classValue,
             headLevelsSpanElement, headLevelsSpanTextNode,
@@ -341,7 +342,24 @@
             currentLevel = 0,
             headingsMapSection = generateSectionForMap(documentWindow, documentIndex),
             documentToCheck = documentWindow.document,
-            headingElements = documentToCheck.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            headingElements = documentToCheck.querySelectorAll('h1, h2, h3, h4, h5, h6'),
+            isVisible = function(element){
+                while (element && element.parentNode) {
+                    if (isItemHidden(element)){
+                        return false;
+                    }
+                    element = element.parentNode;
+                }
+                return true;
+            },
+            isItemHidden = function(el){
+                try {
+                    var style = window.getComputedStyle(el);
+                    return (style.display === 'none' || style.visibility === 'hidden');
+                } catch (e) {
+                    return false;
+                }
+            };
 
         mainList = createElement('ul', {class: listClassPrefix + currentLevel});
         headersList = mainList;
@@ -435,13 +453,17 @@
             }
 
             headerTextNode = createTextNode(headerText);
-            linkElement.appendChild(headerTextNode);
+            headingsSpanNode = createElement("span");
+            headingsSpanNode.appendChild(headerTextNode);
+            linkElement.appendChild(headingsSpanNode);
             mainList.appendChild(linkElement);
             mainList.setAttribute('class', classPrefix + level);
+            linkElement.classList.add(headNotVisibleClass + isVisible(header));
 
             if (currentLevel > previous + 1) {
                 if ((i === 0 && showHeadErrorH1 === true && showHeadError === true) || (i > 0 && showHeadError === true)) {
-                    linkElement.setAttribute('class', headErrorClass);
+                    linkElement.classList.add(headErrorClass);
+
                 }
             }
             previous = currentLevel;
@@ -672,7 +694,7 @@
             baseURL = chrome.extension.getURL('html/'),
             iframeCSS,
             iframeHead,
-            iframeWidget = createElement('iframe', {'id': headingsMapIframeWrapperId}),
+            iframeWidget = createElement('iframe', {'id': headingsMapIframeWrapperId, 'frameborder':'0'}),
             iframeWidgetContentWindow;
 
         bodyParent.insertBefore(iframeWidget, body);
@@ -863,5 +885,28 @@
         }
 
         return section;
+    }
+})();
+
+
+(function(){
+    function isVisible(element){
+        if (isHidden(element)){
+            return false
+        } else {
+            while (element.parentNode) {
+                var hidden = isHidden(element);
+                if (hidden){
+                    return false;
+                }
+                element = element.parentNode;
+            }
+            return true;
+        }
+    }
+
+    function isHidden(el) {
+        var style = window.getComputedStyle(el);
+        return (style.display === 'none' || style.visibility === 'hidden');
     }
 })();
