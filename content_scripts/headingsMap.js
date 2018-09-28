@@ -23,7 +23,7 @@
         activeStatusClass = 'active',
         classPrefix = 'biohead',
         headErrorClass = 'head_error',
-        headNotVisibleClass = 'visible-';
+        headVisibleClassPrefix = 'visible-';
         noHeadClass = 'no-headed',
         untitledDocumentText = 'Untitled document',
         noHeadingsText = 'No headings',
@@ -458,7 +458,7 @@
             linkElement.appendChild(headingsSpanNode);
             mainList.appendChild(linkElement);
             mainList.setAttribute('class', classPrefix + level);
-            linkElement.classList.add(headNotVisibleClass + isVisible(header));
+            linkElement.classList.add(headVisibleClassPrefix + isVisible(header));
 
             if (currentLevel > previous + 1) {
                 if ((i === 0 && showHeadErrorH1 === true && showHeadError === true) || (i > 0 && showHeadError === true)) {
