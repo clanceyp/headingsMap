@@ -463,7 +463,6 @@
             if (currentLevel > previous + 1) {
                 if ((i === 0 && showHeadErrorH1 === true && showHeadError === true) || (i > 0 && showHeadError === true)) {
                     linkElement.classList.add(headErrorClass);
-
                 }
             }
             previous = currentLevel;
@@ -885,28 +884,5 @@
         }
 
         return section;
-    }
-})();
-
-
-(function(){
-    function isVisible(element){
-        if (isHidden(element)){
-            return false
-        } else {
-            while (element.parentNode) {
-                var hidden = isHidden(element);
-                if (hidden){
-                    return false;
-                }
-                element = element.parentNode;
-            }
-            return true;
-        }
-    }
-
-    function isHidden(el) {
-        var style = window.getComputedStyle(el);
-        return (style.display === 'none' || style.visibility === 'hidden');
     }
 })();
