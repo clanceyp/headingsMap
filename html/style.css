@@ -91,6 +91,7 @@ html, body {
 
 #headingsMapWrapper a:focus {
     outline: none;
+    text-decoration: underline;
 }
 
 #headingsMapWrapper p,

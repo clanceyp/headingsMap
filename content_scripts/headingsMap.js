@@ -21,6 +21,8 @@
         headingsMapIframeWrapperId = 'headingsMapIframeWrapper',
         headingsMapWrapperId = 'headingsMapWrapper',
         activeStatusClass = 'active',
+        headingsMapPulseClass = 'headingsMap__pulse',
+        scrollToTopOffset = 160,
         classPrefix = 'biohead',
         headErrorClass = 'head_error',
         headVisibleClassPrefix = 'visible-';
@@ -473,10 +475,17 @@
 
     function scrollToHeader(event) {
         // This only considers the current document
-        var headerElement = document.getElementById(event.target.getAttribute('data-header-id'));
+        var headerElement = getId(event.target);
 
         if (headerElement) {
             document.documentElement.scrollTop = getTopPosition(headerElement);
+            var temp = document.querySelectorAll("."+headingsMapPulseClass);
+            temp.forEach(function(item){
+                item.classList.remove(headingsMapPulseClass);
+            });
+            window.requestAnimationFrame(function(){
+                headerElement.classList.add(headingsMapPulseClass);
+            });
         }
 
         function getTopPosition(element) {
@@ -495,7 +504,21 @@
                 topPosition += element.offsetTop;
             }
 
-            return topPosition;
+
+            // don't scroll to 0, as there may well be a fixed position nav, give a reasonable offset so header is in the view port
+            // but not exactly at the top
+            return topPosition - scrollToTopOffset;
+
+        }
+
+        function getId(el) {
+            // el might be a or span tag
+            var id;
+            while (!id && el && el.parentNode){
+                id = el.getAttribute('data-header-id');
+                el = el.parentNode;
+            }
+            return document.getElementById(id);
         }
     }
 
