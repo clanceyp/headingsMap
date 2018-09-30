@@ -473,7 +473,7 @@
 
     function scrollToHeader(event) {
         // This only considers the current document
-        var headerElement = document.getElementById(event.target.getAttribute('data-header-id'));
+        var headerElement = getEl(event.target);
 
         if (headerElement) {
             document.documentElement.scrollTop = getTopPosition(headerElement);
@@ -496,6 +496,16 @@
             }
 
             return topPosition;
+        }
+
+        function getEl(el) {
+            // el might be a or span tag
+            var id;
+            while (!id && el && el.parentNode){
+                id = el.getAttribute('data-header-id');
+                el = el.parentNode;
+            }
+            return document.getElementById(id);
         }
     }
 
