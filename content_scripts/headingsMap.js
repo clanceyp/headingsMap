@@ -475,7 +475,7 @@
 
     function scrollToHeader(event) {
         // This only considers the current document
-        var headerElement = getId(event.target);
+        var headerElement = getEl(event.target);
 
         if (headerElement) {
             document.documentElement.scrollTop = getTopPosition(headerElement);
@@ -511,7 +511,7 @@
 
         }
 
-        function getId(el) {
+        function getEl(el) {
             // el might be a or span tag
             var id;
             while (!id && el && el.parentNode){
