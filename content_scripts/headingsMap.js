@@ -25,6 +25,7 @@
         scrollToTopOffset = 160,
         classPrefix = 'biohead',
         headErrorClass = 'head_error',
+        noErrorClass = 'no-errors',
         headVisibleClassPrefix = 'visible-';
         noHeadClass = 'no-headed',
         untitledDocumentText = 'Untitled document',
@@ -465,6 +466,10 @@
             if (currentLevel > previous + 1) {
                 if ((i === 0 && showHeadErrorH1 === true && showHeadError === true) || (i > 0 && showHeadError === true)) {
                     linkElement.classList.add(headErrorClass);
+                    var temp = headingsMapSection.querySelector("."+ noErrorClass);
+                    if (temp){
+                        temp.classList.remove(noErrorClass);
+                    }
                 }
             }
             previous = currentLevel;
@@ -881,7 +886,7 @@
             titleElement = titleElements.length ? documentToCheck.querySelectorAll('title')[0] : false,
             titleText = titleElement ? getText(titleElement) : untitledDocumentText,
             titleTextNode = createTextNode(titleText),
-            sectionHeader = createElement('h2'),
+            sectionHeader = createElement('h1',{'class': noErrorClass}),
             sectionSubHeader = createElement('p'),
             locationHref = documentWindow.location.href,
             sectionSubHeaderTextNode = createTextNode('Frame: ' + locationHref);

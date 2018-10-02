@@ -16,9 +16,15 @@ html, body {
     padding: 25px 1% 5px;
 }
 
+#headingsMapWrapper h1,
 #headingsMapWrapper h2 {
     font-size: 1em;
-    margin: 8px;
+    margin: 0;
+    padding: 8px;
+}
+
+#headingsMapWrapper .no-errors {
+    background-color: rgba(0, 132, 0, 0.3);
 }
 
 #headingsMapWrapper section {
